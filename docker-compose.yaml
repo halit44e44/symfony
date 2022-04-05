@@ -1,0 +1,79 @@
+version: '3.7'
+
+services:
+
+  app:
+    build:
+      context: .
+      args:
+        user: user
+        uid: 1000
+    container_name: app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    environment:
+      - _DB_HOST=db
+      - _DB_DATABASE=appdb
+      - _DB_USERNAME=root
+      - _DB_PASSWORD=root
+      - _REDIS_HOST=redis
+    volumes:
+      - .:/var/www
+    networks:
+      - path-company
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    build: .docker/nginx
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+    networks:
+      - path-company
+    depends_on:
+      - app
+
+  db:
+    build: ./.docker/mysql
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "33006:3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=appdb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_USER=root
+    networks:
+      - path-company
+
+  phpmyadmin:
+    image: phpmyadmin
+    networks:
+      - path-company
+    environment:
+      - PMA_HOST=mysql
+      - PMA_ARBITRARY=1
+    ports:
+      - "9090:80"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6389:6379"
+    container_name: redisPath
+    networks:
+      - path-company
+
+networks:
+  path-company:
+    driver: bridge
