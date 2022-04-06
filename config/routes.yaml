@@ -4,3 +4,41 @@
 
 api_login_check:
   path: /api/login_check
+
+#User Controller
+user:
+    path: /api/user
+    methods: [GET]
+    controller: App\Controller\UserController::index
+
+#Order Controller
+#1-Group Yapısı olsa daha mantıklu olurdu.
+getOrder:
+  path: /api/getOrder/{orderCode}
+  methods: [GET]
+  controller: App\Controller\OrderController::getOrder
+
+getAllOrders:
+  path: /api/getAllOrders
+  methods: [GET]
+  controller: App\Controller\OrderController::getAllOrders
+
+createOrder:
+  path: /api/createOrder
+  methods: [POST]
+  controller: App\Controller\OrderController::createOrder
+
+updateOrder:
+  path: /api/updateOrder/{orderCode}
+  methods: [PUT]
+  controller: App\Controller\OrderController::updateOrder
+
+shippingUpdate:
+  path: /api/shippingUpdate/{orderCode}
+  methods: [PATCH]
+  controller: App\Controller\OrderController::shippingUpdate
+
+deleteOrder:
+  path: /api/deleteOrder/{orderCode}
+  methods: [DELETE]
+  controller: App\Controller\OrderController::deleteOrder
