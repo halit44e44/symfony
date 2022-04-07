@@ -19,7 +19,11 @@
 # cd symfony
 # docker-compose up -d
 # php bin/console lexik:jwt:generate-keypair
+# php bin/console doctrine:migrations:migrate
 ```
+- Console işlemleri bittikten sonra lütfen ENV dosyası içerisindeki DB bağlantısını değiştirin Aksi taktirde hata alacaksınız
+Bu Sorun Dockerdan dolayı oluştu.  
+
 
 - Tarayıcı URL http://localhost:8000
 - phpMyAdmin http://localhost:9090
