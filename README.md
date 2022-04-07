@@ -18,6 +18,7 @@
 ```
 # cd symfony
 # docker-compose up -d
+# composer install
 # php bin/console lexik:jwt:generate-keypair
 # php bin/console doctrine:migrations:migrate
 ```
